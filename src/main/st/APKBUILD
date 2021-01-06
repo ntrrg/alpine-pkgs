@@ -1,0 +1,55 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=st
+pkgver=0.8.2
+pkgrel=3
+pkgdesc="Simple terminal emulator for X"
+url="https://st.suckless.org"
+arch="all"
+license="MIT"
+makedepends="
+	fontconfig-dev
+	freetype-dev
+	gcc
+	libx11-dev
+	libxext-dev
+	libxft-dev
+	make
+	musl-dev
+	ncurses
+	ncurses-dev
+"
+depends="libxft ncurses-terminfo-base"
+source="
+	https://dl.suckless.org/st/st-$pkgver.tar.gz
+	10-alpha-0.8.2.patch
+	20-clipboard-0.8.2.patch
+	st.desktop
+"
+subpackages="$pkgname-doc $pkgname-dbg"
+options="!check" # no tests
+
+prepare() {
+	default_prepare
+
+	sed -i "s/\(pixelsize\)=[0-9]\+/\1=16/" "config.def.h"
+	sed -i "s/ \(defaultbg\) = [0-9]\+/ \1 = 0/" "config.def.h"
+	sed -i "s/ \(alpha\) = [0-9.]*/ \1 = 0.9/" "config.def.h"
+	sed -i "s/ \(cols\) = [0-9]\+/ \1 = 85/" "config.def.h"
+	sed -i "s/ \(rows\) = [0-9]\+/ \1 = 25/" "config.def.h"
+}
+
+build() {
+	make
+}
+
+package() {
+	make PREFIX="/usr" DESTDIR="$pkgdir" install
+
+	install -Dm 644 "$srcdir/st.desktop" \
+		"$pkgdir/usr/share/applications/st.desktop"
+}
+
+sha512sums="eaaf5f2fe050ee768d16a9c8c295ba13315775b3a8a3201e020237a3dd217bfb811832d58477249000596289a6cb3287fbb39d6327fc90986af1c363e4b5bf8d  st-0.8.2.tar.gz
+ddea26ecd6fecdb222adabc2d8122d462a0132a2cde1c5c9608902ec83849cc2dd75e92b4717676866fc5c532212822c40e7bb15c61ef1465c84b1634b2c7368  10-alpha-0.8.2.patch
+268b9215513a48c3083db63635a72effe2e23f0660cc1517702a388a49bf07f3078e7880c2b8073150a3b52ece070c49b977b9c6c103d0158bc177131f9c3b90  20-clipboard-0.8.2.patch
+c2b4a5feda31ca72b5e83a319c5fc009f826fd961dee81c20be6e168403d1fe1c060247fa33ae6893533beabf3f9e783d45fe476cc9f9c67a009509845da7ab5  st.desktop"

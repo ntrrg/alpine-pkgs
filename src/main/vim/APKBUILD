@@ -1,0 +1,52 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=vim
+pkgver=8.2.2285
+pkgrel=3
+pkgdesc="Improved vi-style text editor"
+url="https://www.vim.org/"
+arch="all"
+license="Vim"
+makedepends="
+	gcc
+	ncurses
+	ncurses-dev
+	libx11-dev
+	libxpm-dev
+	libxt-dev
+	libxtst-dev
+	make
+	musl-dev
+"
+checkdepends="libtool"
+source="
+	$pkgname-$pkgver.tar.gz::https://github.com/vim/vim/archive/v$pkgver.tar.gz
+	vim.desktop
+"
+subpackages="$pkgname-doc"
+options="!check" # some tests are failing
+
+build() {
+	./configure \
+		--build=$CBUILD --host=$CHOST \
+		--prefix="/usr" --with-features=huge \
+		--with-compiledby="Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>"
+
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make -j1 DESTDIR="$pkgdir/" install
+
+	install -Dm 644 "$srcdir/vim.desktop" \
+		"$pkgdir/usr/share/applications/vim.desktop"
+
+	install -Dm 644 "runtime/doc/uganda.txt" \
+		"$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+sha512sums="677d3d305441c2e7642444c46bff2e073d9572b20efbf194db3b1fa7c18d64087356e24ad1a59049ef61676df3ded6402d953a1882c158e320133fe1cd907bb2  vim-8.2.2285.tar.gz
+ee532a18f49c681ed04cd8a33126d29447ea00e872f075a27e9da538f09aef1d18eada88367ab21dd101d959117074f7bc4ab4d94548929055e0f7109af26607  vim.desktop"
