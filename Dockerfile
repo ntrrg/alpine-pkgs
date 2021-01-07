@@ -16,4 +16,5 @@ USER "$NEW_USER"
 VOLUME /home/$NEW_USER/.abuild
 VOLUME /var/cache/distfiles
 VOLUME /home/$NEW_USER/packages
+ENTRYPOINT ["./entrypoint.sh"]
 
