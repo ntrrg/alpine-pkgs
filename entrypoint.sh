@@ -6,8 +6,14 @@ set -eu
 
 PACKAGES="$@"
 
-if [ -z "$PACKAGES" ]; then
+if [ "$PACKAGES" = "all" ]; then
 	PACKAGES="$(find "src" -name "APKBUILD" -exec dirname '{}' \;)"
+elif [ -z "$PACKAGES" ]; then
+	PACKAGES="$(
+		git --no-pager diff \
+			--diff-filter=ACMR --name-only main...HEAD -- "src/**/APKBUILD" | \
+				xargs -r -n 1 dirname
+	)"
 fi
 
 for PACKAGE in $PACKAGES; do
