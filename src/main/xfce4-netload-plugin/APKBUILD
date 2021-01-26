@@ -1,0 +1,27 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=xfce4-netload-plugin
+pkgver=1.3.2
+pkgrel=0
+pkgdesc="Network load monitoring plugin for Xfce"
+url="https://docs.xfce.org/panel-plugins/xfce4-netload-plugin"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="
+	gtk+3.0-dev
+	libxfce4ui-dev
+	xfce4-panel-dev
+"
+subpackages="$pkgname-lang"
+source="https://archive.xfce.org/src/panel-plugins/xfce4-netload-plugin/${pkgver%.*}/xfce4-netload-plugin-$pkgver.tar.bz2"
+options="!check" # no tests
+
+build() {
+	./configure --prefix="/usr"
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="519d18b1212d7c43e016220f94c6d0dabcf676ebe4f32e4c166497e7292dd4b297836d37cbea08572ab77ecdda2461b081411a6cd37fe3a20013b4d77419ef93  xfce4-netload-plugin-1.3.2.tar.bz2"

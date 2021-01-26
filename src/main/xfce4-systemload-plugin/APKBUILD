@@ -1,0 +1,27 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=xfce4-systemload-plugin
+pkgver=1.2.4
+pkgrel=0
+pkgdesc="System load monitoring plugin for Xfce"
+url="https://docs.xfce.org/panel-plugins/xfce4-systemload-plugin"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="
+	gtk+3.0-dev
+	libxfce4ui-dev
+	xfce4-panel-dev
+"
+subpackages="$pkgname-lang"
+source="https://archive.xfce.org/src/panel-plugins/xfce4-systemload-plugin/${pkgver%.*}/xfce4-systemload-plugin-$pkgver.tar.bz2"
+options="!check" # no tests
+
+build() {
+	./configure --prefix="/usr"
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="1f57ffe861e9906a1744a02b0b50b1dd9e755ea4d0f8b93dba7f42416cd3727834eca60129465fa6f665ac93ec43c3a5272ce9ceae5f4bb17bf180d88e87bddd  xfce4-systemload-plugin-1.2.4.tar.bz2"

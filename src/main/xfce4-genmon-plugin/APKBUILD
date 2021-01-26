@@ -1,0 +1,27 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=xfce4-genmon-plugin
+pkgver=4.1.0
+pkgrel=0
+pkgdesc="Plugin for capturing the output from a command for Xfce"
+url="https://docs.xfce.org/panel-plugins/xfce4-genmon-plugin"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="
+	gtk+3.0-dev
+	libxfce4ui-dev
+	xfce4-panel-dev
+"
+subpackages="$pkgname-lang"
+source="https://archive.xfce.org/src/panel-plugins/xfce4-genmon-plugin/${pkgver%.*}/xfce4-genmon-plugin-$pkgver.tar.bz2"
+options="!check" # no tests
+
+build() {
+	./configure --prefix="/usr"
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="07d203c0d7907d6ebcf3f982dee8d87337a8a7578beb3632944ab177d5866393c382b3096e407b908999c5865a2088ef9305970ae6b93775c6703d866130cec3  xfce4-genmon-plugin-4.1.0.tar.bz2"

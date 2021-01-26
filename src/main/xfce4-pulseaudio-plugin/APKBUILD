@@ -1,0 +1,31 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=xfce4-pulseaudio-plugin
+pkgver=0.4.3
+pkgrel=0
+pkgdesc="PulseAudio mixer control plugin for Xfce"
+url="https://docs.xfce.org/panel-plugins/xfce4-pulseaudio-plugin"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="
+	dbus-dev
+	dbus-glib-dev
+	exo-dev
+	libnotify-dev
+	libxfce4ui-dev
+	pulseaudio-dev
+	xfce4-panel-dev
+"
+source="https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/${pkgver%.*}/xfce4-pulseaudio-plugin-$pkgver.tar.bz2"
+subpackages="$pkgname-lang"
+options="!check" # no tests
+
+build() {
+	./configure --prefix="/usr"
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="d3214b2b7c35a0a87ea60a5d843f5027d1b09f320d4d24c6bf89a8936de92226223cb4dc5368edf4c0a1aedb3b8796510981eeadee8e836e764569d9284f0efa  xfce4-pulseaudio-plugin-0.4.3.tar.bz2"

@@ -1,0 +1,27 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=xfce4-diskperf-plugin
+pkgver=2.6.3
+pkgrel=0
+pkgdesc="Disk performace monitoring plugin for Xfce"
+url="https://docs.xfce.org/panel-plugins/xfce4-diskperf-plugin"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="
+	gtk+3.0-dev
+	libxfce4ui-dev
+	xfce4-panel-dev
+"
+subpackages="$pkgname-lang"
+source="https://archive.xfce.org/src/panel-plugins/xfce4-diskperf-plugin/${pkgver%.*}/xfce4-diskperf-plugin-$pkgver.tar.bz2"
+options="!check" # no tests
+
+build() {
+	./configure --prefix="/usr"
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="fb7ffeaca14f67bb8a2423529f7040d3e51a0184a552f4636acfb4aec914da5fef95db2c710cad8cb1a3b96ef9abc308ad072b03f6e2ccc49793c0edb73dc116  xfce4-diskperf-plugin-2.6.3.tar.bz2"
