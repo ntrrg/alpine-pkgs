@@ -31,11 +31,11 @@ options="!check" # no tests
 prepare() {
 	default_prepare
 
-	sed -i "s/\(pixelsize\)=[0-9]\+/\1=16/" "config.def.h"
-	sed -i "s/ \(defaultbg\) = [0-9]\+/ \1 = 0/" "config.def.h"
-	sed -i "s/ \(alpha\) = [0-9.]*/ \1 = 0.9/" "config.def.h"
-	sed -i "s/ \(cols\) = [0-9]\+/ \1 = 85/" "config.def.h"
-	sed -i "s/ \(rows\) = [0-9]\+/ \1 = 25/" "config.def.h"
+	sed -i 's/\(pixelsize\)=[0-9]\+/\1=16/' "config.def.h"
+	sed -i 's/ \(defaultbg\) = [0-9]\+/ \1 = 0/' "config.def.h"
+	sed -i 's/ \(alpha\) = [0-9.]*/ \1 = 0.9/' "config.def.h"
+	sed -i 's/ \(cols\) = [0-9]\+/ \1 = 85/' "config.def.h"
+	sed -i 's/ \(rows\) = [0-9]\+/ \1 = 25/' "config.def.h"
 }
 
 build() {
