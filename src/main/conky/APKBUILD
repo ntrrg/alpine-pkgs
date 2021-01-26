@@ -30,8 +30,9 @@ subpackages="$pkgname-doc"
 options="!check" # no tests
 
 prepare() {
-	sed -i -e '32 iinclude(CheckIncludeFile)' CMakeLists.txt
 	default_prepare
+
+	sed -i -e '32 iinclude(CheckIncludeFile)' "CMakeLists.txt"
 }
 
 build() {
