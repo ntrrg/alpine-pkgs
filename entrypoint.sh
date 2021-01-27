@@ -20,6 +20,7 @@ for PACKAGE in $PACKAGES; do
 	echo "Building $PACKAGE.."
 	cd "$PACKAGE"
 	apkbuild-lint "APKBUILD"
+	abuild checksum
 	abuild -r
 	cd "$OLDPWD"
 done
