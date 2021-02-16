@@ -1,0 +1,28 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=xfce4-sensors-plugin
+pkgver=1.3.95
+pkgrel=0
+pkgdesc="Reads your hardware sensor values and displays them in your panel"
+url="https://docs.xfce.org/panel-plugins/xfce4-sensors-plugin"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="
+	gtk+3.0-dev
+	libxfce4ui-dev
+	lm-sensors-dev
+	xfce4-panel-dev
+"
+subpackages="$pkgname-lang $pkgname-doc"
+source="https://archive.xfce.org/src/panel-plugins/xfce4-sensors-plugin/${pkgver%.*}/xfce4-sensors-plugin-$pkgver.tar.bz2"
+options="!check" # no tests
+
+build() {
+	./configure --prefix="/usr"
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="265dec06bcd7a609b992e70273e8b11fdbaec41b0eb4dcb1b390e315b924743b3833b65fe2d237bb0b457e61943b97c065b34138216b171d111f5e923602642b  xfce4-sensors-plugin-1.3.95.tar.bz2"
