@@ -19,8 +19,8 @@ fi
 for PACKAGE in $PACKAGES; do
 	echo "Building $PACKAGE.."
 	cd "$PACKAGE"
-	apkbuild-lint "APKBUILD"
 	abuild checksum
+	apkbuild-lint "APKBUILD"
 	abuild -r
 	cd "$OLDPWD"
 done
