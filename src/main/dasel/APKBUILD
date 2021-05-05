@@ -1,6 +1,6 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=dasel
-pkgver=1.12.1
+pkgver=1.14.1
 pkgrel=0
 pkgdesc="Query, update and convert data structures from multiple formats."
 url="https://github.com/TomWright/dasel/"
@@ -21,4 +21,4 @@ package() {
 	install -Dm 755 "$pkgname" "$pkgdir/usr/bin/$pkgname"
 }
 
-sha512sums="8f3001dfa5e51c75feb5cd01be6c3cfc22eb1c7836558bc84475701f55f72549fcd7f1dfab416c6004a50750c759b815749209b9dc516d524ab5f4cf328b9cc0  dasel-1.12.1.tar.gz"
+sha512sums="c092dd4f434e8244925a3c1c5bf42ce3d9624526723f49e28f7d5b7238d0ecb8dc0caa4b4372330e69387033583da59ebcf618f593000ae13c44ed7d6e8ebbe6  dasel-1.14.1.tar.gz"
