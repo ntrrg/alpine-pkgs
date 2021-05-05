@@ -1,0 +1,27 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=xsettingsd
+pkgver=1.0.2
+pkgrel=0
+pkgdesc="Settings manager for XSETTINGS specification"
+url="https://github.com/derat/xsettingsd"
+arch="all"
+license="BSD-3-Clause"
+makedepends="cmake libx11-dev"
+checkdepends="gtest"
+source="$pkgname-$pkgver.tar.gz::https://github.com/derat/xsettingsd/archive/v$pkgver.tar.gz"
+subpackages="$pkgname-doc"
+
+build() {
+	cmake -DCMAKE_INSTALL_PREFIX="/usr"
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="da2a82d0b3f5061a1fad7632d800539f4e81bd3f8631dd724705d0601556c044c62da7469a974cbe8f6d8e070247493ac5776bac966cf36f1fae825562457baa  xsettingsd-1.0.2.tar.gz"
