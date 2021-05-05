@@ -1,12 +1,17 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=materia-gtk-theme
-pkgver=20200916
+pkgver=20210322
 pkgrel=0
 pkgdesc="Material Design theme for GTK desktops"
 url="https://github.com/nana-4/materia-theme"
 arch="noarch"
 license="GPL-2.0-only"
-makedepends="bash sassc"
+makedepends="
+	gtk+3.0
+	gtk4.0
+	meson
+	sassc
+"
 source="$pkgname-$pkgver.tar.gz::https://github.com/nana-4/materia-theme/archive/v$pkgver.tar.gz"
 subpackages="
 	$pkgname-chromium:_chromium:noarch
@@ -35,8 +40,19 @@ subpackages="
 builddir="$srcdir/materia-theme-$pkgver"
 options="!check" # no tests
 
+prepare() {
+	default_prepare
+
+	sed -i '/cinnamon/d' "src/meson.build"
+	sed -i '/gnome-shell/d' "src/meson.build"
+	sed -i '/metacity/d' "src/meson.build"
+	sed -i '/plank/d' "src/meson.build"
+	sed -i '/unity/d' "src/meson.build"
+}
+
 build() {
-	./install.sh -d "dist"
+	meson -Dprefix="/usr" -Dgtk4_version="4.0.3" "_build"
+	meson install -C "_build" --destdir "$PWD/dist"
 }
 
 _install_variant() {
@@ -50,7 +66,7 @@ _install_variant() {
 	local elem=""
 
 	for elem in $elems; do
-		cp -rf "$builddir/dist/$variant/$elem" "$dest/"
+		cp -rf "$builddir/dist/usr/share/themes/$variant/$elem" "$dest/"
 	done
 }
 
@@ -60,8 +76,8 @@ package() {
 	_install_variant "Materia" \
 		"gtk-2.0" \
 		"gtk-3.0" \
-		"gtk-assets" \
-		"gtk-icons" \
+		"gtk-4.0" \
+		"COPYING" \
 		"index.theme"
 }
 
@@ -87,8 +103,8 @@ _compact() {
 	_install_variant "Materia-compact" \
 		"gtk-2.0" \
 		"gtk-3.0" \
-		"gtk-assets" \
-		"gtk-icons" \
+		"gtk-4.0" \
+		"COPYING" \
 		"index.theme"
 }
 
@@ -114,8 +130,8 @@ _dark() {
 	_install_variant "Materia-dark" \
 		"gtk-2.0" \
 		"gtk-3.0" \
-		"gtk-assets" \
-		"gtk-icons" \
+		"gtk-4.0" \
+		"COPYING" \
 		"index.theme"
 }
 
@@ -141,8 +157,8 @@ _dark_compact() {
 	_install_variant "Materia-dark-compact" \
 		"gtk-2.0" \
 		"gtk-3.0" \
-		"gtk-assets" \
-		"gtk-icons" \
+		"gtk-4.0" \
+		"COPYING" \
 		"index.theme"
 }
 
@@ -168,8 +184,8 @@ _light() {
 	_install_variant "Materia-light" \
 		"gtk-2.0" \
 		"gtk-3.0" \
-		"gtk-assets" \
-		"gtk-icons" \
+		"gtk-4.0" \
+		"COPYING" \
 		"index.theme"
 }
 
@@ -195,8 +211,8 @@ _light_compact() {
 	_install_variant "Materia-light-compact" \
 		"gtk-2.0" \
 		"gtk-3.0" \
-		"gtk-assets" \
-		"gtk-icons" \
+		"gtk-4.0" \
+		"COPYING" \
 		"index.theme"
 }
 
@@ -214,4 +230,3 @@ _light_compact_xfwm4() {
 	_install_variant "Materia-light-compact" "xfwm4"
 }
 
-sha512sums="02cb54572b2b5c8275f6ccb7da43a9e9c4326107e386d41a57101ea2e7b184443884b65f96c9e7cceb4ed8ec94a374c0b74e6c2c78dea9558ce9fd507404a4ed  materia-gtk-theme-20200916.tar.gz"
