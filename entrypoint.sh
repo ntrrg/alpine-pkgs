@@ -24,8 +24,8 @@ for PACKAGE in $PACKAGES; do
 	cd "$PACKAGE"
 	abuild checksum
 	apkbuild-lint "APKBUILD"
-	mv "$INDEX_FILE" "$INDEX_FILE.old"
-	abuild -r || mv "$INDEX_FILE.old" "$INDEX_FILE"
+	mv "$INDEX_FILE" "$INDEX_FILE.old" || true
+	abuild -r || mv "$INDEX_FILE.old" "$INDEX_FILE" || true
 	rm -f "$INDEX_FILE.old"
 	cd "$OLDPWD"
 done
