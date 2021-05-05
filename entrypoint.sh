@@ -17,10 +17,15 @@ elif [ -z "$PACKAGES" ]; then
 fi
 
 for PACKAGE in $PACKAGES; do
+	BRANCH="$(basename "$(dirname "$PACKAGE")")"
+	INDEX_FILE="$HOME/packages/$BRANCH/$(abuild -A)/APKINDEX.tar.gz"
+
 	echo "Building $PACKAGE.."
 	cd "$PACKAGE"
 	abuild checksum
 	apkbuild-lint "APKBUILD"
-	abuild -r
+	mv "$INDEX_FILE" "$INDEX_FILE.old"
+	abuild -r || mv "$INDEX_FILE.old" "$INDEX_FILE"
+	rm -f "$INDEX_FILE.old"
 	cd "$OLDPWD"
 done
