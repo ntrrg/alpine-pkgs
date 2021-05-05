@@ -1,7 +1,7 @@
 # This file is based on the original Conky APKBUILD file from Alpine Aports
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=conky
-pkgver=1.11.6
+pkgver=1.12.2
 pkgrel=0
 pkgdesc="An advanced, highly configurable system monitor for X based on torsmo"
 url="https://github.com/brndnmtthws/conky"
@@ -89,4 +89,4 @@ package() {
 	install -D -m644 COPYING $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
 
-sha512sums="f7bffcef33680d61d0171ba50b29ddda011c1c1989fc847cd4b5b60d46bed4772294eec34fd27c4d642a9c03e3cedaa31855ffc0f3b60791f4bed14ffdf7490a  conky-1.11.6.tar.gz"
+sha512sums="55280953da437efe36320e4c12f74d95b8406bd7d8b7d93c6582f9b346c1c80a94b71d1c27860f6274de9171865fca91e330dfc39feb80bb2f453a538bc5ce1a  conky-1.12.2.tar.gz"
