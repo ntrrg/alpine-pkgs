@@ -1,7 +1,7 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=vim
-pkgver=8.2.2285
-pkgrel=3
+pkgver=8.2.2832
+pkgrel=0
 pkgdesc="Improved vi-style text editor"
 url="https://www.vim.org/"
 arch="all"
@@ -48,5 +48,5 @@ package() {
 		"$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 
-sha512sums="677d3d305441c2e7642444c46bff2e073d9572b20efbf194db3b1fa7c18d64087356e24ad1a59049ef61676df3ded6402d953a1882c158e320133fe1cd907bb2  vim-8.2.2285.tar.gz
+sha512sums="f75e0f7f4269e30aee8c3a27d1c7e0f4977078a29e44b430a28c391bbeb62966e98eabe0d1106131b1de63513497f24ac9cc1319b84107aeac8d9ad790563944  vim-8.2.2832.tar.gz
 ee532a18f49c681ed04cd8a33126d29447ea00e872f075a27e9da538f09aef1d18eada88367ab21dd101d959117074f7bc4ab4d94548929055e0f7109af26607  vim.desktop"
