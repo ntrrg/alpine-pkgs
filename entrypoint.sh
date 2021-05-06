@@ -11,10 +11,12 @@ if [ "$PACKAGES" = "all" ]; then
 elif [ -z "$PACKAGES" ]; then
 	PACKAGES="$(
 		git --no-pager diff \
-			--diff-filter=ACMR --name-only main...HEAD -- "src/**/APKBUILD" | \
-				xargs -r -n 1 dirname
+			--diff-filter=ACMR --name-only main...HEAD -- "src/**/APKBUILD" |
+			xargs -r -n 1 dirname
 	)"
 fi
+
+sudo apk update
 
 for PACKAGE in $PACKAGES; do
 	BRANCH="$(basename "$(dirname "$PACKAGE")")"
@@ -22,10 +24,17 @@ for PACKAGE in $PACKAGES; do
 
 	echo "Building $PACKAGE.."
 	cd "$PACKAGE"
+
 	abuild checksum
 	apkbuild-lint "APKBUILD"
-	mv "$INDEX_FILE" "$INDEX_FILE.old" || true
-	abuild -r || mv "$INDEX_FILE.old" "$INDEX_FILE" || true
+
+	[ -f "$INDEX_FILE" ] && mv "$INDEX_FILE" "$INDEX_FILE.old"
+
+	abuild -r || (
+		[ -f "$INDEX_FILE.old" ] && mv "$INDEX_FILE.old" "$INDEX_FILE"
+		false
+	)
+
 	rm -f "$INDEX_FILE.old"
 	cd "$OLDPWD"
 done
