@@ -1,7 +1,7 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=materia-gtk-theme
 pkgver=20210322
-pkgrel=0
+pkgrel=1
 pkgdesc="Material Design theme for GTK desktops"
 url="https://github.com/nana-4/materia-theme"
 arch="noarch"
