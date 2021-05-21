@@ -1,9 +1,9 @@
 ```shell-session
-$ export ALPINE_VERSION="edge"
+$ export ALPINE_VERSION="3.13"
 
 $ export DIST_FILES="$HOME/Downloads"
 
-$ export PKGS_DEST="$HOME/Downloads/ntalpine/$ALPINE_VERSION"
+$ export PKGS_DEST="$HOME/Downloads/ntalpine/v$ALPINE_VERSION"
 
 $ docker run --rm -i -t --network host \
     -v "$HOME/.abuild:/home/ntrrg/.abuild:ro" \

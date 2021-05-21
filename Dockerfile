@@ -1,10 +1,9 @@
-FROM alpine:edge
+FROM alpine:3.13
 ARG NEW_USER="ntrrg"
-ARG MIRROR="http://dl-cdn.alpinelinux.org/alpine/edge"
+ARG MIRROR="http://dl-cdn.alpinelinux.org/alpine/v3.13"
 RUN \
   echo "$MIRROR/main" > /etc/apk/repositories && \
   echo "$MIRROR/community" >> /etc/apk/repositories && \
-  echo "$MIRROR/testing" >> /etc/apk/repositories && \
   apk add --no-cache alpine-sdk atools sudo && \
   adduser -D "$NEW_USER" && \
   addgroup "$NEW_USER" abuild && \
