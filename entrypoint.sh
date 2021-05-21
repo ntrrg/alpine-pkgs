@@ -35,6 +35,8 @@ for PACKAGE in $PACKAGES; do
 		false
 	)
 
+	abuild cleanoldpkg
+
 	rm -f "$INDEX_FILE.old"
 	cd "$OLDPWD"
 done
