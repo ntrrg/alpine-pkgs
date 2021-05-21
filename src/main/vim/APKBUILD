@@ -1,6 +1,6 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=vim
-pkgver=8.2.2832
+pkgver=8.2.2876
 pkgrel=0
 pkgdesc="Improved vi-style text editor"
 url="https://www.vim.org/"
