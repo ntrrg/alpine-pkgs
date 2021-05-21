@@ -35,7 +35,12 @@ for PACKAGE in $PACKAGES; do
 		false
 	)
 
-	abuild cleanoldpkg
+	mv "$INDEX_FILE" "$INDEX_FILE.old"
+
+	abuild cleanoldpkg || (
+		mv "$INDEX_FILE.old" "$INDEX_FILE"
+		false
+	)
 
 	rm -f "$INDEX_FILE.old"
 	cd "$OLDPWD"
