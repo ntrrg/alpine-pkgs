@@ -24,4 +24,6 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="519d18b1212d7c43e016220f94c6d0dabcf676ebe4f32e4c166497e7292dd4b297836d37cbea08572ab77ecdda2461b081411a6cd37fe3a20013b4d77419ef93  xfce4-netload-plugin-1.3.2.tar.bz2"
+sha512sums="
+519d18b1212d7c43e016220f94c6d0dabcf676ebe4f32e4c166497e7292dd4b297836d37cbea08572ab77ecdda2461b081411a6cd37fe3a20013b4d77419ef93  xfce4-netload-plugin-1.3.2.tar.bz2
+"

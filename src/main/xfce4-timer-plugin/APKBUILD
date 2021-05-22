@@ -30,4 +30,6 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="4887dc2c524a8b749a20449dd491dc8f12f8babb26c64cecf33ae56b45d2446128cb65c25f11d534278ad39a2adf7ab718714e1bfa613fd39713e44642030c16  xfce4-timer-plugin-1.7.1.tar.bz2"
+sha512sums="
+4887dc2c524a8b749a20449dd491dc8f12f8babb26c64cecf33ae56b45d2446128cb65c25f11d534278ad39a2adf7ab718714e1bfa613fd39713e44642030c16  xfce4-timer-plugin-1.7.1.tar.bz2
+"

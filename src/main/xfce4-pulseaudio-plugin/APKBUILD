@@ -28,4 +28,6 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="d3214b2b7c35a0a87ea60a5d843f5027d1b09f320d4d24c6bf89a8936de92226223cb4dc5368edf4c0a1aedb3b8796510981eeadee8e836e764569d9284f0efa  xfce4-pulseaudio-plugin-0.4.3.tar.bz2"
+sha512sums="
+d3214b2b7c35a0a87ea60a5d843f5027d1b09f320d4d24c6bf89a8936de92226223cb4dc5368edf4c0a1aedb3b8796510981eeadee8e836e764569d9284f0efa  xfce4-pulseaudio-plugin-0.4.3.tar.bz2
+"

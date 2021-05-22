@@ -24,4 +24,6 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="1f57ffe861e9906a1744a02b0b50b1dd9e755ea4d0f8b93dba7f42416cd3727834eca60129465fa6f665ac93ec43c3a5272ce9ceae5f4bb17bf180d88e87bddd  xfce4-systemload-plugin-1.2.4.tar.bz2"
+sha512sums="
+1f57ffe861e9906a1744a02b0b50b1dd9e755ea4d0f8b93dba7f42416cd3727834eca60129465fa6f665ac93ec43c3a5272ce9ceae5f4bb17bf180d88e87bddd  xfce4-systemload-plugin-1.2.4.tar.bz2
+"
