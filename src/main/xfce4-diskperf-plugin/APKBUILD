@@ -24,4 +24,6 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="fb7ffeaca14f67bb8a2423529f7040d3e51a0184a552f4636acfb4aec914da5fef95db2c710cad8cb1a3b96ef9abc308ad072b03f6e2ccc49793c0edb73dc116  xfce4-diskperf-plugin-2.6.3.tar.bz2"
+sha512sums="
+fb7ffeaca14f67bb8a2423529f7040d3e51a0184a552f4636acfb4aec914da5fef95db2c710cad8cb1a3b96ef9abc308ad072b03f6e2ccc49793c0edb73dc116  xfce4-diskperf-plugin-2.6.3.tar.bz2
+"

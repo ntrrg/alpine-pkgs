@@ -230,4 +230,6 @@ _light_compact_xfwm4() {
 	_install_variant "Materia-light-compact" "xfwm4"
 }
 
-sha512sums="c384a1afd5cf72f7ccfc0d1af8fd7efbe66027aa6e293899d57e46d8e572822ec6070785e957b07464cf0b3b73a302b9344920af361a9e8ab582565b7cedba71  materia-gtk-theme-20210322.tar.gz"
+sha512sums="
+c384a1afd5cf72f7ccfc0d1af8fd7efbe66027aa6e293899d57e46d8e572822ec6070785e957b07464cf0b3b73a302b9344920af361a9e8ab582565b7cedba71  materia-gtk-theme-20210322.tar.gz
+"

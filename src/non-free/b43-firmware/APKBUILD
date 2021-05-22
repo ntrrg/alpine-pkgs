@@ -23,4 +23,6 @@ package() {
 	done
 }
 
-sha512sums="0ada0cd0446fcc7f753945d1a18eb31844ed45a137df679f2acba85f02e2acb1e3e8bde6241ac9ca2bedee1f74a018682de13fe4e185aced603547a6e03f7a3e  broadcom-wl-4.150.10.5.tar.bz2"
+sha512sums="
+0ada0cd0446fcc7f753945d1a18eb31844ed45a137df679f2acba85f02e2acb1e3e8bde6241ac9ca2bedee1f74a018682de13fe4e185aced603547a6e03f7a3e  broadcom-wl-4.150.10.5.tar.bz2
+"
