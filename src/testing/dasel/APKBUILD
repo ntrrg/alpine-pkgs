@@ -21,4 +21,6 @@ package() {
 	install -Dm 755 "$pkgname" "$pkgdir/usr/bin/$pkgname"
 }
 
-sha512sums="c092dd4f434e8244925a3c1c5bf42ce3d9624526723f49e28f7d5b7238d0ecb8dc0caa4b4372330e69387033583da59ebcf618f593000ae13c44ed7d6e8ebbe6  dasel-1.14.1.tar.gz"
+sha512sums="
+c092dd4f434e8244925a3c1c5bf42ce3d9624526723f49e28f7d5b7238d0ecb8dc0caa4b4372330e69387033583da59ebcf618f593000ae13c44ed7d6e8ebbe6  dasel-1.14.1.tar.gz
+"
