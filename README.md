@@ -10,6 +10,15 @@ $ docker run --rm -i -t --network host \
     -v "$DIST_FILES:/var/cache/distfiles" \
     -v "$PKGS_DEST:/home/ntrrg/packages" \
     "ntrrg/alpine-pkgs:$ALPINE_VERSION" [all | PACKAGE]
+
+$ # Development.
+
+$ docker run --rm -i -t --network host \
+    -v "$HOME/.abuild:/home/ntrrg/.abuild:ro" \
+    -v "$DIST_FILES:/var/cache/distfiles" \
+    -v "$PKGS_DEST:/home/ntrrg/packages" \
+    -v "$PWD:/home/ntrrg/pkgs/" -e "DEBUG=1" \
+    "ntrrg/alpine-pkgs:$ALPINE_VERSION" [all | PACKAGE]
 ```
 
 # Acknowledgment

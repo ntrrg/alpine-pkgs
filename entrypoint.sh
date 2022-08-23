@@ -30,7 +30,7 @@ for PACKAGE in $PACKAGES; do
 
 	[ -f "$INDEX_FILE" ] && mv "$INDEX_FILE" "$INDEX_FILE.old"
 
-	abuild -r || (
+	abuild -r "$([ "$DEBUG" -eq 1 ] && echo "-K")" || (
 		[ -f "$INDEX_FILE.old" ] && mv "$INDEX_FILE.old" "$INDEX_FILE"
 		false
 	)

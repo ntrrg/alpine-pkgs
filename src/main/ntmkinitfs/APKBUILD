@@ -1,0 +1,35 @@
+# This file is based on the original mkinitfs APKBUILD file from Alpine Aports
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=ntmkinitfs
+pkgver=0.0.1
+_mkinifs_ver=3.6.2
+pkgrel=0
+pkgdesc="Tool for generating initramfs images"
+url="https://gitlab.alpinelinux.org/alpine/mkinitfs"
+arch="all"
+license="GPL-2.0-only"
+makedepends_host="busybox kmod-dev util-linux-dev cryptsetup-dev linux-headers"
+makedepends="$makedepends_host"
+depends="busybox>=1.28.2-r1 apk-tools>=2.9.1 lddtree>=1.25 kmod !mkinitfs"
+source="
+	https://gitlab.alpinelinux.org/alpine/mkinitfs/-/archive/$_mkinifs_ver/mkinitfs-$_mkinifs_ver.tar.gz
+"
+subpackages="$pkgname-doc"
+install="$pkgname.post-install $pkgname.pre-upgrade $pkgname.post-upgrade"
+triggers="$pkgname.trigger=/usr/share/kernel/*"
+builddir="$srcdir/mkinitfs-$_mkinifs_ver"
+options="!check"
+
+provides="mkinitfs=$_mkinifs_ver"
+
+build() {
+	make VERSION=$_mkinifs_ver-r$pkgrel
+}
+
+package() {
+	make install DESTDIR="$pkgdir"
+}
+
+sha512sums="
+c0655535e5f88634ce5be906c4fe55035ae86a1d169ee1539a8a55d795372eac45fe4a0455a8ad3ab07372ac2f816633f8a062fdebfac8e0595a7c0141ccdcec  mkinitfs-3.6.2.tar.gz
+"

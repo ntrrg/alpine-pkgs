@@ -3,8 +3,8 @@ Name=st
 GenericName=Terminal
 Comment=Simple terminal emulator for the X window system
 
-Icon=st
 Type=Application
+Icon=st
 Categories=Development;System;
 Keywords=shell;prompt;command;commandline;cmd;terminal;terminalemulator;
 

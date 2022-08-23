@@ -1,0 +1,50 @@
+--- a/initramfs-init.in
++++ b/initramfs-init.in
+@@ -486,11 +486,42 @@
+ 	if [ -n "$KOPT_cryptoffset" ]; then
+ 		cryptopts="$cryptopts -o ${KOPT_cryptoffset}"
+ 	fi
+-	if [ "$KOPT_cryptkey" = "yes" ]; then
+-		cryptopts="$cryptopts -k /crypto_keyfile.bin"
+-	elif [ -n "$KOPT_cryptkey" ]; then
+-		cryptopts="$cryptopts -k ${KOPT_cryptkey}"
+-	fi
++	case "$KOPT_cryptkey" in
++	UUID*|LABEL*)
++		_key_dev="$(echo "$KOPT_cryptkey" | cut -d "/" -f 1)"
++		_key_path="$(echo "$KOPT_cryptkey" | cut -d "/" -f 2 | sed "s/^\/*//")"
++
++		if [ -z "$_key_path" ] || [ "$_key_path" = "$_key_dev" ]; then
++			_key_path="crypto_keyfile.bin"
++		fi
++
++		echo "Loading decryption key from $_key_dev/$_key_path"
++
++		nlplug-findfs -p /sbin/mdev \
++			${KOPT_usbdelay:+-t "$(( $KOPT_usbdelay * 1000 ))"} \
++			"${KOPT_debug_init:+"-d"}" "$_key_dev"
++
++		_key_mnt="$(mktemp -d)"
++		_key="$(mktemp)"
++
++		if blkid "$(findfs "$_key_dev")" | grep -q 'TYPE="crypto_LUKS"'; then
++			cryptsetup open "$_key_dev" "_key_dev"
++			mount "/dev/mapper/_key_dev" "$_key_mnt"
++			cat "$_key_mnt/$_key_path" > "$_key"
++			umount "$_key_mnt"
++			cryptsetup close "_key_dev"
++		else
++			mount "$_key_dev" "$_key_mnt"
++			cat "$_key_mnt/$_key_path" > "$_key"
++			umount "$_key_mnt"
++		fi
++
++		cryptopts="$cryptopts -k $_key"
++		;;
++
++	yes) cryptopts="$cryptopts -k /crypto_keyfile.bin" ;;
++	?*) cryptopts="$cryptopts -k ${KOPT_cryptkey}" ;;
++	esac
+ fi
+ 
+ if [ -n "$KOPT_nbd" ]; then

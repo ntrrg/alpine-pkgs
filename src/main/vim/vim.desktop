@@ -8,6 +8,6 @@ Type=Application
 Categories=Utility;Development;
 Keywords=Text;editor;
 
-Exec=vim %F
-Terminal=true
+Exec=st vim -p %F
+Terminal=false
 MimeType=text/plain;

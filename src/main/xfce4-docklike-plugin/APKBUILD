@@ -1,0 +1,34 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=xfce4-docklike-plugin
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="A modern, minimalist taskbar for Xfce"
+url="https://docs.xfce.org/panel-plugins/xfce4-docklike-plugin"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="
+	gtk+3.0-dev
+	libwnck3-dev
+	libxfce4ui-dev
+	xfce4-panel-dev
+"
+subpackages="$pkgname-lang"
+source="
+	https://archive.xfce.org/src/panel-plugins/xfce4-docklike-plugin/${pkgver%.*}/xfce4-docklike-plugin-$pkgver.tar.bz2
+	0001-basename-called-but-libgen.h-not-included.patch
+"
+options="!check" # no tests
+
+build() {
+	./configure --prefix="/usr"
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+4da41fc9ebae96e706ce4def8c34d214bcd92910a19ea89d3a83bb2a24665a2382d5006908048756501c7e21475b5ff4043eedf6463a8b5294eaa2b2720149bc  xfce4-docklike-plugin-0.4.0.tar.bz2
+012eb605c6c0264a5c797801fa65b230fec5879039fcd47c634a6167c6081c1e389b233d86163103af0ffd76c81ccb1e4491f172babc7518900b6ead567b072d  0001-basename-called-but-libgen.h-not-included.patch
+"
