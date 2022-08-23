@@ -42,6 +42,7 @@ build() {
 
 	./configure \
 		--build=$CBUILD --host=$CHOST --prefix="/usr" --with-features=tiny \
+		--without-x --enable-gui=no \
 		--with-compiledby="Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>"
 
 	make
