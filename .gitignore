@@ -1,5 +1,7 @@
 nogit-*
 *.apk
+src/**/src/
+src/**/pkg/
 
 #########
 # Tools #
