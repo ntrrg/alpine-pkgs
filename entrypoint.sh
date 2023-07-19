@@ -2,46 +2,52 @@
 # Copyright (c) 2021 Miguel Angel Rivera Notararigo
 # Released under the MIT License
 
-set -eu
+set -euo pipefail
 
-PACKAGES="$@"
+main() {
+	local packages="$@"
 
-if [ "$PACKAGES" = "all" ]; then
-	PACKAGES="$(find "src" -name "APKBUILD" -exec dirname '{}' \;)"
-elif [ -z "$PACKAGES" ]; then
-	PACKAGES="$(
-		git --no-pager diff \
-			--diff-filter=ACMR --name-only main...HEAD -- "src/**/APKBUILD" |
-			xargs -r -n 1 dirname
-	)"
-fi
+	if [ "$packages" = "all" ]; then
+		packages="$(find "src" -name "APKBUILD" -exec dirname '{}' \;)"
+	elif [ -z "$packages" ]; then
+		packages="$(
+			git --no-pager diff \
+				--diff-filter=ACMR --name-only main...HEAD -- "src/**/APKBUILD" |
+				xargs -r -n 1 dirname
+		)"
+	fi
 
-sudo apk update
+	doas apk update
 
-for PACKAGE in $PACKAGES; do
-	BRANCH="$(basename "$(dirname "$PACKAGE")")"
-	INDEX_FILE="$HOME/packages/$BRANCH/$(abuild -A)/APKINDEX.tar.gz"
+	local package = ""
 
-	echo "Building $PACKAGE.."
-	cd "$PACKAGE"
+	for package in $packages; do
+		local branch="$(basename "$(dirname "$package")")"
+		local index_file="$HOME/packages/$branch/$(abuild -A)/APKINDEX.tar.gz"
 
-	abuild checksum
-	apkbuild-lint "APKBUILD"
+		echo "Building $package.."
+		cd "$package"
 
-	[ -f "$INDEX_FILE" ] && mv "$INDEX_FILE" "$INDEX_FILE.old"
+		abuild checksum
+		apkbuild-lint "APKBUILD"
 
-	abuild -r "$([ "$DEBUG" -eq 1 ] && echo "-K")" || (
-		[ -f "$INDEX_FILE.old" ] && mv "$INDEX_FILE.old" "$INDEX_FILE"
-		false
-	)
+		[ -f "$index_file" ] && mv "$index_file" "$index_file.old"
 
-	mv "$INDEX_FILE" "$INDEX_FILE.old"
+		abuild -r "$([ "${DEBUG:-0}" -eq 1 ] && echo "-K")" || (
+			[ -f "$index_file.old" ] && mv "$index_file.old" "$index_file"
+			false
+		)
 
-	abuild cleanoldpkg || (
-		mv "$INDEX_FILE.old" "$INDEX_FILE"
-		false
-	)
+		mv "$index_file" "$index_file.old"
 
-	rm -f "$INDEX_FILE.old"
-	cd "$OLDPWD"
-done
+		abuild cleanoldpkg || (
+			mv "$index_file.old" "$index_file"
+			false
+		)
+
+		rm -f "$index_file.old"
+		cd "$OLDPWD"
+	done
+}
+
+main "$@"
