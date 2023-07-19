@@ -1,6 +1,6 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=vim
-pkgver=9.0.0226
+pkgver=9.0.1677
 pkgrel=0
 pkgdesc="Improved vi-style text editor"
 url="https://www.vim.org/"
@@ -10,10 +10,6 @@ makedepends="
 	gcc
 	ncurses
 	ncurses-dev
-	libx11-dev
-	libxpm-dev
-	libxt-dev
-	libxtst-dev
 	make
 	musl-dev
 "
@@ -34,6 +30,7 @@ prepare() {
 build() {
 	./configure \
 		--build=$CBUILD --host=$CHOST --prefix="/usr" \
+		--without-x --enable-gui=no \
 		--with-compiledby="Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>"
 
 	make
@@ -51,6 +48,7 @@ build() {
 
 	./configure \
 		--build=$CBUILD --host=$CHOST --prefix="/usr" --with-features=huge \
+		--without-x --enable-gui=no \
 		--with-compiledby="Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>"
 
 	make
@@ -68,9 +66,8 @@ package() {
 }
 
 huge() {
-	pkgdesc="Improved vi-style text editor with X clipboard support"
+	pkgdesc="Improved vi-style text editor with huge featuress"
 	provides="vim=$pkgver"
-	depends="st"
 
 	cd "$builddir-huge"
 
@@ -100,6 +97,6 @@ tiny() {
 }
 
 sha512sums="
-bdfb858d5ea8a01f2df21e2b3baa3b056b6d26760a98b31d823c85e0faaf0ccf20b240af1340d1784c533aee49f694439c19d36d1969d07a167e935bad5c7d96  vim-9.0.0226.tar.gz
-c62fd7f74f4563814ef386ec9400ac10a2e391a18be8e4357454bbf5d4b3d7ae6fc6e954463c922322c1f606e513da30cd69b757a0f0433e09c89a24fa2346ee  vim.desktop
+8c50d8a6f081673023aa0dd607810fb652d25a46c955d0fa744faf557517a465160cf01b39d5ee6d2c93dd172635500ff7315e54565f7f628ee8f0f8dab8c291  vim-9.0.1677.tar.gz
+060b176af29879ef05eb46bd4e15337aacd1396bc6d677af751bce8b38b65d83adc951a675e965fd5007155ba349b74c5ccc824c53246fa229a2788839e0a027  vim.desktop
 "
