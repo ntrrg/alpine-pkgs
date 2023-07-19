@@ -52,7 +52,7 @@ prepare() {
 
 build() {
 	meson -Dprefix="/usr" -Dgtk4_version="4.0.3" "_build"
-	meson install -C "_build" --destdir "$PWD/dist"
+	meson install -C "_build" --destdir "$builddir/dist"
 }
 
 _install_variant() {
