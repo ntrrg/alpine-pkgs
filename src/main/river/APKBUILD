@@ -1,0 +1,75 @@
+# This file is based on the original River APKBUILD file from Alpine Aports
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=river
+pkgver=0.2.4
+pkgrel=0
+pkgdesc="Dynamic Tiling Wayland Compositor"
+url="https://github.com/riverwm/river"
+arch="x86_64 aarch64"
+license="GPL-3.0-only"
+makedepends="
+	libevdev-dev
+	libxkbcommon-dev
+	pixman-dev
+	scdoc
+	wayland-dev
+	wayland-protocols
+	wlroots-dev
+"
+depends="seatd"
+source="
+	https://github.com/riverwm/river/releases/download/v$pkgver/river-$pkgver.tar.gz
+	https://ziglang.org/download/0.10.1/zig-linux-$CARCH-0.10.1.tar.xz
+	zig-musl-1.2.4-lfs64.diff::https://github.com/ziglang/zig/pull/16098/commits/b20ccff515364cdb8f3e733cc950e53ab77656db.diff
+"
+subpackages="
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-bash-completion
+	$pkgname-fish-completion
+	$pkgname-zsh-completion
+"
+
+prepare() {
+	default_prepare
+
+	patch ${patch_args:-"-p1"} \
+		-d "$builddir/../zig-linux-$CARCH-0.10.1" \
+		-i "$builddir/../zig-musl-1.2.4-lfs64.diff"
+}
+
+build() {
+	_zig="$builddir/../zig-linux-$CARCH-0.10.1/zig"
+
+	DESTDIR="$builddir/dist" $_zig build \
+		-Drelease-safe -Dcpu=baseline \
+		-Dpie -Dxwayland --prefix "/usr" install
+}
+
+check() {
+	_zig="$builddir/../zig-linux-$CARCH-0.10.1/zig"
+
+	$_zig build test
+}
+
+package() {
+	mkdir -p "$pkgdir"
+	cp -r "$builddir/dist"/* "$pkgdir"
+
+	# Fix location of pkgconfig files, must be fixed upstream
+	mkdir -p "$pkgdir/usr/lib"
+	mv "$pkgdir/usr/share/pkgconfig" "$pkgdir/usr/lib"
+
+	install -Dm0644 "example/init" -t "$pkgdir/usr/share/doc/river/examples"
+}
+
+dev() {
+	default_dev
+	amove "usr/share/river-protocols"
+}
+
+sha512sums="
+cb09380f3b5b2dd5c0b868542cfd37fe84285f49f9d6441ebddc15fd0ea62f61929d5e7eadd5755ff8b3c387226b86ec2e98292cc62075d46113d1641825199a  river-0.2.4.tar.gz
+1cf88a492b1a47800e213b8801477f4ffabf269f960d27d1849c5aec805b5db3768c83d4daa4a738532b1b7367e8c6812e3eea47c205ea732d7a6269a47e16dc  zig-linux-x86_64-0.10.1.tar.xz
+5656879f632812e6e7958ef2cd28655b2e95fe254691f7a86164db0d40861d19ad0e3e2b6ae969cbab4e72d147eec0570acc383b86ecba0b83470321f8a3dc62  zig-musl-1.2.4-lfs64.diff
+"
