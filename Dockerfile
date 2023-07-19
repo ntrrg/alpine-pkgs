@@ -4,7 +4,7 @@ ARG MIRROR="http://dl-cdn.alpinelinux.org/alpine/edge"
 RUN \
   echo "$MIRROR/main" > /etc/apk/repositories && \
   echo "$MIRROR/community" >> /etc/apk/repositories && \
-  ([ "${MIRROR##*/}" = "edge" ] && echo "$MIRROR/testing" >> /etc/apk/repositories || true) && \
+  echo "@testing $MIRROR/testing" >> /etc/apk/repositories && \
   apk add --no-cache alpine-sdk atools doas sudo && \
   adduser -D "$NEW_USER" && \
   addgroup "$NEW_USER" abuild && \
