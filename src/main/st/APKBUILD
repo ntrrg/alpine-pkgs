@@ -21,7 +21,7 @@ makedepends="
 depends="libxft ncurses-terminfo-base"
 source="
 	https://dl.suckless.org/st/st-$pkgver.tar.gz
-	10-alpha-0.8.5.patch
+	st-10-alpha-20220206-0.8.5.patch::https://st.suckless.org/patches/alpha/st-alpha-20220206-0.8.5.diff
 	st.desktop
 "
 subpackages="$pkgname-doc $pkgname-dbg"
@@ -50,6 +50,6 @@ package() {
 
 sha512sums="
 45cc51f9fc343bd80a48f23f5b00e41e0cc01a538474e0578dd02f02ce92cb560e0e7464ec47fd7de4d39483b23fda212c3e7c64233e8a3f4ab6862144d76323  st-0.8.5.tar.gz
-d07f4d9cff87a3bc7f1fa852261de04cf680c28860e3b9bc8a9b09a0572b1876b29c919eba1f81d68ee0f2a6b8812fde2fcf561d80c640f44eb1f658a55cdbea  10-alpha-0.8.5.patch
+d07f4d9cff87a3bc7f1fa852261de04cf680c28860e3b9bc8a9b09a0572b1876b29c919eba1f81d68ee0f2a6b8812fde2fcf561d80c640f44eb1f658a55cdbea  st-10-alpha-20220206-0.8.5.patch
 81fc9642059d4b07c8d4b9a88d1b2a879e02297e104d399fac6357900df8f7dea6cd89ea7e1709ec32cd16dd56a6d6cabfe1dd85f8ce826fea89fb8236ab3c3e  st.desktop
 "
