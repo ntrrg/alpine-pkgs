@@ -19,7 +19,7 @@ main() {
 
 	doas apk update
 
-	local package = ""
+	local package=""
 
 	for package in $packages; do
 		local branch="$(basename "$(dirname "$package")")"
@@ -27,7 +27,6 @@ main() {
 
 		echo "Building $package.."
 		cd "$package"
-
 		abuild checksum
 		apkbuild-lint "APKBUILD"
 
@@ -46,7 +45,7 @@ main() {
 		)
 
 		rm -f "$index_file.old"
-		cd -
+		cd "$OLDPWD"
 	done
 }
 
