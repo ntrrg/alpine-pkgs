@@ -46,7 +46,7 @@ main() {
 		)
 
 		rm -f "$index_file.old"
-		cd "$OLDPWD"
+		cd -
 	done
 }
 
