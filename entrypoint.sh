@@ -17,7 +17,7 @@ main() {
 		)"
 	fi
 
-	doas apk update
+	#doas apk update
 
 	local package=""
 
