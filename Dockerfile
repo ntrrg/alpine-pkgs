@@ -5,15 +5,15 @@ RUN \
   echo "$MIRROR/main" > /etc/apk/repositories && \
   echo "$MIRROR/community" >> /etc/apk/repositories && \
   echo "@testing $MIRROR/testing" >> /etc/apk/repositories && \
-  apk add --no-cache alpine-sdk atools doas sudo && \
+  apk add --no-cache alpine-sdk atools doas && \
   adduser -D "$NEW_USER" && \
   addgroup "$NEW_USER" abuild && \
-  echo "$NEW_USER ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-  echo "permit nopass $NEW_USER as root" >> /etc/doas.conf && \
-  sudo true
+  echo "permit nopass $NEW_USER as root" >> /etc/doas.conf
 WORKDIR "/home/$NEW_USER/pkgs"
 COPY . .
-RUN chown -R "$NEW_USER":"$NEW_USER" .
+RUN \
+  mkdir "/home/$NEW_USER/packages" && \
+  chown -R "$NEW_USER":"$NEW_USER" "/home/$NEW_USER"
 USER "$NEW_USER"
 VOLUME /home/$NEW_USER/.abuild
 VOLUME /var/cache/distfiles
