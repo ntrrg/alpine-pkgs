@@ -1,6 +1,6 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=vim
-pkgver=9.0.1677
+pkgver=9.1.0766
 pkgrel=0
 pkgdesc="Improved vi-style text editor"
 url="https://www.vim.org/"
@@ -18,7 +18,8 @@ source="
 	$pkgname-$pkgver.tar.gz::https://github.com/vim/vim/archive/v$pkgver.tar.gz
 	vim.desktop
 "
-subpackages="$pkgname-doc vim-huge:huge vim-tiny:tiny"
+subpackages="$pkgname-doc"
+#subpackages="$pkgname-doc vim-huge:huge vim-tiny:tiny"
 options="!check" # some tests are failing
 
 prepare() {
@@ -35,23 +36,23 @@ build() {
 
 	make
 
-	cd "$builddir-tiny"
+	#cd "$builddir-tiny"
 
-	./configure \
-		--build=$CBUILD --host=$CHOST --prefix="/usr" --with-features=tiny \
-		--without-x --enable-gui=no \
-		--with-compiledby="Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>"
+	#./configure \
+	#	--build=$CBUILD --host=$CHOST --prefix="/usr" --with-features=tiny \
+	#	--without-x --enable-gui=no \
+	#	--with-compiledby="Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>"
 
-	make
+	#make
 
-	cd "$builddir-huge"
+	#cd "$builddir-huge"
 
-	./configure \
-		--build=$CBUILD --host=$CHOST --prefix="/usr" --with-features=huge \
-		--without-x --enable-gui=no \
-		--with-compiledby="Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>"
+	#./configure \
+	#	--build=$CBUILD --host=$CHOST --prefix="/usr" --with-features=huge \
+	#	--without-x --enable-gui=no \
+	#	--with-compiledby="Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>"
 
-	make
+	#make
 }
 
 check() {
@@ -97,6 +98,6 @@ tiny() {
 }
 
 sha512sums="
-8c50d8a6f081673023aa0dd607810fb652d25a46c955d0fa744faf557517a465160cf01b39d5ee6d2c93dd172635500ff7315e54565f7f628ee8f0f8dab8c291  vim-9.0.1677.tar.gz
+a2ec1db2f15666b529b9d949aed3db7d4b7ecbbdee02611b746613118f6942cfa774ed990a5b1f28a0b762e14982e69ae078b5cf63f8eea86d63421fd4c79f9a  vim-9.1.0766.tar.gz
 060b176af29879ef05eb46bd4e15337aacd1396bc6d677af751bce8b38b65d83adc951a675e965fd5007155ba349b74c5ccc824c53246fa229a2788839e0a027  vim.desktop
 "
