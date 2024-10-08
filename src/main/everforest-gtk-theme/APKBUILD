@@ -1,37 +1,27 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=everforest-gtk-theme
-_git_revision=8481714cf9ed5148694f1916ceba8fe21e14937b
-pkgver=20230320
+_git_revision=82e1c2eb59c3a542c3c0cc9707ffedc7f6ccbce0
+pkgver=20240912
 pkgrel=0
-pkgdesc="Everforest theme for GTK desktops"
+pkgdesc="Everforest theme for GTK"
 url="https://github.com/Fausto-Korpsvart/Everforest-GTK-Theme"
 arch="noarch"
 license="GPL-3.0"
+makedepends="
+	bash
+	sassc
+"
 depends="gtk-murrine-engine"
 source="$pkgname-$pkgver.tar.gz::https://github.com/Fausto-Korpsvart/Everforest-GTK-Theme/archive/$_git_revision.tar.gz"
 subpackages="
 	$pkgname-xfwm4:_xfwm4:noarch
-
-	$pkgname-legacy:_light_legacy:noarch
-	$pkgname-legacy-xfwm4:_light_legacy_xfwm4:noarch
-
-	$pkgname-borderless:_light_borderless:noarch
-	$pkgname-borderless-xfwm4:_light_borderless_xfwm4:noarch
-
-	$pkgname-borderless-legacy:_light_borderless_legacy:noarch
-	$pkgname-borderless-legacy-xfwm4:_light_borderless_legacy_xfwm4:noarch
-
 	$pkgname-dark:_dark:noarch
 	$pkgname-dark-xfwm4:_dark_xfwm4:noarch
 
-	$pkgname-dark-legacy:_dark_legacy:noarch
-	$pkgname-dark-legacy-xfwm4:_dark_legacy_xfwm4:noarch
-
-	$pkgname-dark-borderless:_dark_borderless:noarch
-	$pkgname-dark-borderless-xfwm4:_dark_borderless_xfwm4:noarch
-
-	$pkgname-dark-borderless-legacy:_dark_borderless_legacy:noarch
-	$pkgname-dark-borderless-legacy-xfwm4:_dark_borderless_legacy_xfwm4:noarch
+	$pkgname-green:_green:noarch
+	$pkgname-green-xfwm4:_green_xfwm4:noarch
+	$pkgname-green-dark:_green_dark:noarch
+	$pkgname-green-dark-xfwm4:_green_dark_xfwm4:noarch
 
 	everforest-icon-theme:_icons:noarch
 	everforest-icon-theme-dark:_icons_dark:noarch
@@ -42,13 +32,15 @@ options="!check" # no tests
 prepare() {
 	default_prepare
 
-	sed -e 's/oomox-//' -i icons/*/index.theme
-	sed -e 's/[Ee]verforest_[Ll]ight/Everforest-Light/g' -i icons/everforest_light/index.theme
-	mv icons/everforest_light icons/Everforest-Light
+	#sed -e 's/oomox-//' -i icons/*/index.theme
+	sed -e 's/[Ee]verforest_[Ll]ight/Everforest-Light/g' -i icons/Everforest-Light/index.theme
+	#mv icons/everforest_light icons/Everforest-Light
 }
 
 build() {
-	true
+	themes/install.sh --theme all
+	mkdir -p dist
+	mv "$HOME/.themes/"Everforest* dist
 }
 
 _install_variant() {
@@ -62,14 +54,16 @@ _install_variant() {
 	local _elem=""
 
 	for _elem in $_elems; do
-		cp -rf "$builddir/themes/$_variant/$_elem" "$_dest/"
+		cp -rf "$builddir/dist/$_variant/$_elem" "$_dest/"
 	done
 }
 
-# Everforest
+###########
+# Default #
+###########
 
 package() {
-	_variant="Everforest-Light-B"
+	_variant="Everforest-Light"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
 	_install_variant "$_variant" \
@@ -85,7 +79,7 @@ _xfwm4() {
 	pkgdesc="Everforest theme for XFWM4"
 	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
 
-	_variant="Everforest-Light-B"
+	_variant="Everforest-Light"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
 	_install_variant "$_variant" "xfwm4"
@@ -93,99 +87,12 @@ _xfwm4() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-# Everforest - Legacy Buttons
-
-_light_legacy() {
-	pkgdesc="Everforest theme with legacy buttons support for GTK desktops"
-
-	_variant="Everforest-Light-B-LB"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" \
-		"gtk-2.0" \
-		"gtk-3.0" \
-		"gtk-4.0" \
-		"index.theme"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-_light_legacy_xfwm4() {
-	pkgdesc="Everforest theme with legacy buttons support for XFWM4"
-	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
-
-	_variant="Everforest-Light-B-LB"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" "xfwm4"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-# Everforest - Borderless
-
-_light_borderless() {
-	pkgdesc="Everforest theme without borders for GTK desktops"
-
-	_variant="Everforest-Light-BL"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" \
-		"gtk-2.0" \
-		"gtk-3.0" \
-		"gtk-4.0" \
-		"index.theme"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-_light_borderless_xfwm4() {
-	pkgdesc="Everforest borderless theme for XFWM4"
-	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
-
-	_variant="Everforest-Light-BL"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" "xfwm4"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-# Everforest - Borderless - Legacy Buttons
-
-_light_borderless_legacy() {
-	pkgdesc="Everforest theme without borders and with legacy buttons support for GTK desktops"
-
-	_variant="Everforest-Light-BL-LB"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" \
-		"gtk-2.0" \
-		"gtk-3.0" \
-		"gtk-4.0" \
-		"index.theme"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-_light_borderless_legacy_xfwm4() {
-	pkgdesc="Everforest theme without borders and with legacy buttons support for XFWM4"
-	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
-
-	_variant="Everforest-Light-BL-LB"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" "xfwm4"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-# Everforest - Dark
+# Dark
 
 _dark() {
-	pkgdesc="Everforest dark theme for XFWM4"
+	pkgdesc="Everforest dark theme for GTK"
 
-	_variant="Everforest-Dark-B"
+	_variant="Everforest-Dark"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
 	_install_variant "$_variant" \
@@ -201,7 +108,7 @@ _dark_xfwm4() {
 	pkgdesc="Everforest dark theme for XFWM4"
 	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
 
-	_variant="Everforest-Dark-B"
+	_variant="Everforest-Dark"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
 	_install_variant "$_variant" "xfwm4"
@@ -209,12 +116,14 @@ _dark_xfwm4() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-# Everforest - Dark - Legacy Buttons
+#########
+# Green #
+#########
 
-_dark_legacy() {
-	pkgdesc="Everforest dark theme with legacy buttons support for GTK desktops"
+_green() {
+	pkgdesc="Everforest Green theme for GTK"
 
-	_variant="Everforest-Dark-B-LB"
+	_variant="Everforest-Green-Light"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
 	_install_variant "$_variant" \
@@ -226,11 +135,11 @@ _dark_legacy() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-_dark_legacy_xfwm4() {
-	pkgdesc="Everforest dark theme with legacy buttons support for XFWM4"
+_green_xfwm4() {
+	pkgdesc="Everforest Green theme for XFWM4"
 	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
 
-	_variant="Everforest-Dark-B-LB"
+	_variant="Everforest-Green-Light"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
 	_install_variant "$_variant" "xfwm4"
@@ -238,12 +147,12 @@ _dark_legacy_xfwm4() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-# Everforest - Dark - Borderless
+# Dark
 
-_dark_borderless() {
-	pkgdesc="Everforest dark theme without borders for GTK desktops"
+_green_dark() {
+	pkgdesc="Everforest Green dark theme for GTK"
 
-	_variant="Everforest-Dark-BL"
+	_variant="Everforest-Green-Dark"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
 	_install_variant "$_variant" \
@@ -255,11 +164,11 @@ _dark_borderless() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-_dark_borderless_xfwm4() {
-	pkgdesc="Everforest dark borderless theme for XFWM4"
+_green_dark_xfwm4() {
+	pkgdesc="Everforest Green dark theme for XFWM4"
 	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
 
-	_variant="Everforest-Dark-BL"
+	_variant="Everforest-Green-Dark"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
 	_install_variant "$_variant" "xfwm4"
@@ -267,36 +176,9 @@ _dark_borderless_xfwm4() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-# Everforest - Dark - Borderless - Legacy Buttons
-
-_dark_borderless_legacy() {
-	pkgdesc="Everforest dark theme without borders and with legacy buttons support for GTK desktops"
-
-	_variant="Everforest-Dark-BL-LB"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" \
-		"gtk-2.0" \
-		"gtk-3.0" \
-		"gtk-4.0" \
-		"index.theme"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-_dark_borderless_legacy_xfwm4() {
-	pkgdesc="Everforest dark theme without borders and with legacy buttons support for XFWM4"
-	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
-
-	_variant="Everforest-Dark-BL-LB"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" "xfwm4"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-# Everforest - Icons
+#########
+# Icons #
+#########
 
 _icons() {
 	pkgdesc="Everforest icons theme"
@@ -307,8 +189,6 @@ _icons() {
 	mkdir -p "$_dest"
 	cp -rf "$builddir/icons/$_variant"/* "$builddir/LICENSE" "$_dest/"
 }
-
-# Everforest - Icons - Dark
 
 _icons_dark() {
 	pkgdesc="Everforest dark icons theme"
@@ -321,5 +201,5 @@ _icons_dark() {
 }
 
 sha512sums="
-7e398d531f5bdc0fe0a590cec4820e6b908ba6b53f95035935f38c045a48c9ec6aa5bdbf26d7d1a5b49201cb3fe79ae21b57e3e81b8430410af0df5d01d360f2  everforest-gtk-theme-20230320.tar.gz
+a731943d5ffbe6d7a69e442fbbed9d0aed532eea041ac31801fe9793532ffbdadd28ea747d3a37b995a164501072d63b45d4dc0b7a5db9310f4e4b2216b421c0  everforest-gtk-theme-20240912.tar.gz
 "
