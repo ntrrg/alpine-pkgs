@@ -1,0 +1,59 @@
+# This file is based on the original River APKBUILD file from Alpine Aports
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=river
+pkgver=0.3.5
+pkgrel=0
+pkgdesc="Dynamic Tiling Wayland Compositor"
+url="https://github.com/riverwm/river"
+arch="x86_64 aarch64"
+license="GPL-3.0-only"
+makedepends="
+	libevdev-dev
+	libxkbcommon-dev
+	pixman-dev
+	scdoc
+	wayland-dev
+	wayland-protocols
+	wlroots-dev
+	zig
+"
+depends="seatd"
+source="
+	https://codeberg.org/river/river/releases/download/v$pkgver/river-$pkgver.tar.gz
+"
+subpackages="
+	$pkgname-doc
+	$pkgname-bash-completion
+	$pkgname-fish-completion
+	$pkgname-zsh-completion
+"
+
+build() {
+	zig build \
+		-Doptimize=ReleaseSafe -Dcpu=baseline \
+		-Dpie -Dxwayland install
+}
+
+check() {
+	zig build test
+}
+
+package() {
+	cp -r "$builddir/zig-out"/* "$pkgdir"
+
+	# Fix location of pkgconfig files, must be fixed upstream
+	#mkdir -p "$pkgdir/usr/lib"
+	#mv "$pkgdir/usr/share/pkgconfig" "$pkgdir/usr/lib"
+
+	install -Dm0644 "example/init" -t "$pkgdir/usr/share/doc/river/examples"
+}
+
+#dev() {
+#	default_dev
+#	amove "usr/share/river-protocols"
+#}
+
+sha512sums="
+9fba267b8663969e0a7e6cb39950d41bd7e1b7def6b27a856f403ef19b9dc048018014bb2fc9ac535a4888193256f8089c2559cce2981405c7c9570e0cee2ef5  river-0.3.5.tar.gz
+97ca9b91c6c025cc1746036239063df45bab6aafbe72a861acd266019a11d154b4710b310224c860c6515f09436ca0ff796546aa45cba5d1dc7b3b669dfcdf36  zig-linux-x86_64-0.13.0.tar.xz
+"

@@ -1,0 +1,235 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=materia-gtk-theme
+pkgver=20210322
+pkgrel=1
+pkgdesc="Material Design theme for GTK desktops"
+url="https://github.com/nana-4/materia-theme"
+arch="noarch"
+license="GPL-2.0-only"
+makedepends="
+	gtk+3.0
+	gtk4.0
+	meson
+	sassc
+"
+source="$pkgname-$pkgver.tar.gz::https://github.com/nana-4/materia-theme/archive/v$pkgver.tar.gz"
+subpackages="
+	$pkgname-chromium:_chromium:noarch
+	$pkgname-xfwm4:_xfwm4:noarch
+
+	$pkgname-compact:_compact:noarch
+	$pkgname-compact-chromium:_compact_chromium:noarch
+	$pkgname-compact-xfwm4:_compact_xfwm4:noarch
+
+	$pkgname-dark:_dark:noarch
+	$pkgname-dark-chromium:_dark_chromium:noarch
+	$pkgname-dark-xfwm4:_dark_xfwm4:noarch
+
+	$pkgname-dark-compact:_dark_compact:noarch
+	$pkgname-dark-compact-chromium:_dark_compact_chromium:noarch
+	$pkgname-dark-compact-xfwm4:_dark_compact_xfwm4:noarch
+
+	$pkgname-light:_light:noarch
+	$pkgname-light-chromium:_light_chromium:noarch
+	$pkgname-light-xfwm4:_light_xfwm4:noarch
+
+	$pkgname-light-compact:_light_compact:noarch
+	$pkgname-light-compact-chromium:_light_compact_chromium:noarch
+	$pkgname-light-compact-xfwm4:_light_compact_xfwm4:noarch
+"
+builddir="$srcdir/materia-theme-$pkgver"
+options="!check" # no tests
+
+prepare() {
+	default_prepare
+
+	sed -i '/cinnamon/d' "src/meson.build"
+	sed -i '/gnome-shell/d' "src/meson.build"
+	sed -i '/metacity/d' "src/meson.build"
+	sed -i '/plank/d' "src/meson.build"
+	sed -i '/unity/d' "src/meson.build"
+}
+
+build() {
+	meson -Dprefix="/usr" -Dgtk4_version="4.0.3" "_build"
+	meson install -C "_build" --destdir "$builddir/dist"
+}
+
+_install_variant() {
+	local variant="$1"
+	local dest="${subpkgdir:-$pkgdir}/usr/share/themes/$variant"
+	shift
+	local elems="$@"
+
+	mkdir -p "$dest"
+
+	local elem=""
+
+	for elem in $elems; do
+		cp -rf "$builddir/dist/usr/share/themes/$variant/$elem" "$dest/"
+	done
+}
+
+# Materia
+
+package() {
+	_install_variant "Materia" \
+		"gtk-2.0" \
+		"gtk-3.0" \
+		"gtk-4.0" \
+		"COPYING" \
+		"index.theme"
+}
+
+_chromium() {
+	pkgdesc="Materia GTK theme for Chromium"
+	install_if="$pkgname=$pkgver-r$pkgrel chromium"
+
+	_install_variant "Materia" "chrome"
+}
+
+_xfwm4() {
+	pkgdesc="Materia GTK theme for XFWM4"
+	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
+
+	_install_variant "Materia" "xfwm4"
+}
+
+# Materia - Compact
+
+_compact() {
+	pkgdesc="A compact Material Design theme for GTK desktops"
+
+	_install_variant "Materia-compact" \
+		"gtk-2.0" \
+		"gtk-3.0" \
+		"gtk-4.0" \
+		"COPYING" \
+		"index.theme"
+}
+
+_compact_chromium() {
+	pkgdesc="Compact Materia GTK theme for Chromium"
+	install_if="$pkgname-compact=$pkgver-r$pkgrel chromium"
+
+	_install_variant "Materia-compact" "chrome"
+}
+
+_compact_xfwm4() {
+	pkgdesc="Compact Materia GTK theme for XFWM4"
+	install_if="$pkgname-compact=$pkgver-r$pkgrel xfwm4"
+
+	_install_variant "Materia-compact" "xfwm4"
+}
+
+# Materia - Dark
+
+_dark() {
+	pkgdesc="A dark Material Design theme for GTK desktops"
+
+	_install_variant "Materia-dark" \
+		"gtk-2.0" \
+		"gtk-3.0" \
+		"gtk-4.0" \
+		"COPYING" \
+		"index.theme"
+}
+
+_dark_chromium() {
+	pkgdesc="Dark Materia GTK theme for Chromium"
+	install_if="$pkgname-dark=$pkgver-r$pkgrel chromium"
+
+	_install_variant "Materia-dark" "chrome"
+}
+
+_dark_xfwm4() {
+	pkgdesc="Dark Materia GTK theme for XFWM4"
+	install_if="$pkgname-dark=$pkgver-r$pkgrel xfwm4"
+
+	_install_variant "Materia-dark" "xfwm4"
+}
+
+# Materia - Dark - Compact
+
+_dark_compact() {
+	pkgdesc="A dark and compact Material Design theme for GTK desktops"
+
+	_install_variant "Materia-dark-compact" \
+		"gtk-2.0" \
+		"gtk-3.0" \
+		"gtk-4.0" \
+		"COPYING" \
+		"index.theme"
+}
+
+_dark_compact_chromium() {
+	pkgdesc="Dark and compact Materia GTK theme for Chromium"
+	install_if="$pkgname-dark-compact=$pkgver-r$pkgrel chromium"
+
+	_install_variant "Materia-dark-compact" "chrome"
+}
+
+_dark_compact_xfwm4() {
+	pkgdesc="Dark and compact Materia GTK theme for XFWM4"
+	install_if="$pkgname-dark-compact=$pkgver-r$pkgrel xfwm4"
+
+	_install_variant "Materia-dark-compact" "xfwm4"
+}
+
+# Materia - Light
+
+_light() {
+	pkgdesc="A light Material Design theme for GTK desktops"
+
+	_install_variant "Materia-light" \
+		"gtk-2.0" \
+		"gtk-3.0" \
+		"gtk-4.0" \
+		"COPYING" \
+		"index.theme"
+}
+
+_light_chromium() {
+	pkgdesc="Light Materia GTK theme for Chromium"
+	install_if="$pkgname-light=$pkgver-r$pkgrel chromium"
+
+	_install_variant "Materia-light" "chrome"
+}
+
+_light_xfwm4() {
+	pkgdesc="Light Materia GTK theme for XFWM4"
+	install_if="$pkgname-light=$pkgver-r$pkgrel xfwm4"
+
+	_install_variant "Materia-light" "xfwm4"
+}
+
+# Materia - Light - Compact
+
+_light_compact() {
+	pkgdesc="A light and compact Material Design theme for GTK desktops"
+
+	_install_variant "Materia-light-compact" \
+		"gtk-2.0" \
+		"gtk-3.0" \
+		"gtk-4.0" \
+		"COPYING" \
+		"index.theme"
+}
+
+_light_compact_chromium() {
+	pkgdesc="Light and compact Materia GTK theme for Chromium"
+	install_if="$pkgname-light-compact=$pkgver-r$pkgrel chromium"
+
+	_install_variant "Materia-light-compact" "chrome"
+}
+
+_light_compact_xfwm4() {
+	pkgdesc="Light and compact Materia GTK theme for XFWM4"
+	install_if="$pkgname-light-compact=$pkgver-r$pkgrel xfwm4"
+
+	_install_variant "Materia-light-compact" "xfwm4"
+}
+
+sha512sums="
+c384a1afd5cf72f7ccfc0d1af8fd7efbe66027aa6e293899d57e46d8e572822ec6070785e957b07464cf0b3b73a302b9344920af361a9e8ab582565b7cedba71  materia-gtk-theme-20210322.tar.gz
+"
