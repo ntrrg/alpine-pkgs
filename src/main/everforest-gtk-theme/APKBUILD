@@ -1,7 +1,7 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=everforest-gtk-theme
-_git_revision=82e1c2eb59c3a542c3c0cc9707ffedc7f6ccbce0
-pkgver=20240912
+_git_revision=43cbe4f1aeba8b46e41836de4c8ea7ac398db119
+pkgver=20241106
 pkgrel=0
 pkgdesc="Everforest theme for GTK"
 url="https://github.com/Fausto-Korpsvart/Everforest-GTK-Theme"
@@ -14,14 +14,11 @@ makedepends="
 depends="gtk-murrine-engine"
 source="$pkgname-$pkgver.tar.gz::https://github.com/Fausto-Korpsvart/Everforest-GTK-Theme/archive/$_git_revision.tar.gz"
 subpackages="
-	$pkgname-xfwm4:_xfwm4:noarch
 	$pkgname-dark:_dark:noarch
-	$pkgname-dark-xfwm4:_dark_xfwm4:noarch
 
 	$pkgname-green:_green:noarch
-	$pkgname-green-xfwm4:_green_xfwm4:noarch
 	$pkgname-green-dark:_green_dark:noarch
-	$pkgname-green-dark-xfwm4:_green_dark_xfwm4:noarch
+	$pkgname-green-black:_green_black:noarch
 
 	everforest-icon-theme:_icons:noarch
 	everforest-icon-theme-dark:_icons_dark:noarch
@@ -75,18 +72,6 @@ package() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-_xfwm4() {
-	pkgdesc="Everforest theme for XFWM4"
-	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
-
-	_variant="Everforest-Light"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" "xfwm4"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
 # Dark
 
 _dark() {
@@ -104,24 +89,12 @@ _dark() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-_dark_xfwm4() {
-	pkgdesc="Everforest dark theme for XFWM4"
-	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
-
-	_variant="Everforest-Dark"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" "xfwm4"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
 #########
 # Green #
 #########
 
 _green() {
-	pkgdesc="Everforest Green theme for GTK"
+	pkgdesc="Everforest green theme for GTK"
 
 	_variant="Everforest-Green-Light"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
@@ -131,18 +104,6 @@ _green() {
 		"gtk-3.0" \
 		"gtk-4.0" \
 		"index.theme"
-
-	cp -rf "$builddir/LICENSE" "$_dest/"
-}
-
-_green_xfwm4() {
-	pkgdesc="Everforest Green theme for XFWM4"
-	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
-
-	_variant="Everforest-Green-Light"
-	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
-
-	_install_variant "$_variant" "xfwm4"
 
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
@@ -150,7 +111,7 @@ _green_xfwm4() {
 # Dark
 
 _green_dark() {
-	pkgdesc="Everforest Green dark theme for GTK"
+	pkgdesc="Everforest green dark theme for GTK"
 
 	_variant="Everforest-Green-Dark"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
@@ -164,16 +125,30 @@ _green_dark() {
 	cp -rf "$builddir/LICENSE" "$_dest/"
 }
 
-_green_dark_xfwm4() {
-	pkgdesc="Everforest Green dark theme for XFWM4"
-	install_if="$pkgname=$pkgver-r$pkgrel xfwm4"
+# Black
+
+_green_black() {
+	pkgdesc="Everforest green black theme for GTK"
 
 	_variant="Everforest-Green-Dark"
 	_dest="${subpkgdir:-$pkgdir}/usr/share/themes/$_variant"
 
-	_install_variant "$_variant" "xfwm4"
+	_install_variant "$_variant" \
+		"gtk-2.0" \
+		"gtk-3.0" \
+		"gtk-4.0" \
+		"index.theme"
 
 	cp -rf "$builddir/LICENSE" "$_dest/"
+	sed -e 's/Everforest-Green-Dark/Everforest-Green-Black/g' -i "$_dest/index.theme"
+	sed -e 's/Tela-circle-Dark/Everforest-Light/g' -i "$_dest/index.theme"
+	sed -e 's/Everforest-cursors/phinger-cursors-light/g' -i "$_dest/index.theme"
+	sed -e 's/#1D2021/#000/g' -i "$_dest/gtk-2.0/gtkrc"
+	sed -e 's/#272e33/#000/g' -i "$_dest/gtk-3.0/gtk.css"
+	sed -e 's/#293136/#000/g' -i "$_dest/gtk-3.0/gtk.css"
+	sed -e 's/#272e33/#000/g' -i "$_dest/gtk-4.0/gtk.css"
+	sed -e 's/#293136/#000/g' -i "$_dest/gtk-4.0/gtk.css"
+	mv "$_dest" "${subpkgdir:-$pkgdir}/usr/share/themes/Everforest-Green-Black"
 }
 
 #########
@@ -201,5 +176,5 @@ _icons_dark() {
 }
 
 sha512sums="
-a731943d5ffbe6d7a69e442fbbed9d0aed532eea041ac31801fe9793532ffbdadd28ea747d3a37b995a164501072d63b45d4dc0b7a5db9310f4e4b2216b421c0  everforest-gtk-theme-20240912.tar.gz
+754cad6c36b20eff33d89e1bf3e5ad53069293d19cc8ff4c946cf931aaa7689d4bf8a126486b0e234a325a558d1c2ab02414cde5688650a8b6ba23136be75d9a  everforest-gtk-theme-20241106.tar.gz
 "
