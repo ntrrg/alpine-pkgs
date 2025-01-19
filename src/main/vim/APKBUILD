@@ -1,6 +1,6 @@
 # Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
 pkgname=vim
-pkgver=9.1.0766
+pkgver=9.1.1038
 pkgrel=0
 pkgdesc="Improved vi-style text editor"
 url="https://www.vim.org/"
@@ -24,8 +24,8 @@ options="!check" # some tests are failing
 
 prepare() {
 	default_prepare
-	cp -r "$builddir" "$builddir/../$pkgname-$pkgver-tiny"
-	cp -r "$builddir" "$builddir/../$pkgname-$pkgver-huge"
+	#cp -r "$builddir" "$builddir/../$pkgname-$pkgver-tiny"
+	#cp -r "$builddir" "$builddir/../$pkgname-$pkgver-huge"
 }
 
 build() {
@@ -98,6 +98,6 @@ tiny() {
 }
 
 sha512sums="
-a2ec1db2f15666b529b9d949aed3db7d4b7ecbbdee02611b746613118f6942cfa774ed990a5b1f28a0b762e14982e69ae078b5cf63f8eea86d63421fd4c79f9a  vim-9.1.0766.tar.gz
+0d677afa5f729878915750e347d3fcb3cc32f00fc3260c8a65ead6a3feb82b71a7e16b8553dbdb2cf57d74104a012406027a0584ade84bbfade966d9ad14731e  vim-9.1.1038.tar.gz
 060b176af29879ef05eb46bd4e15337aacd1396bc6d677af751bce8b38b65d83adc951a675e965fd5007155ba349b74c5ccc824c53246fa229a2788839e0a027  vim.desktop
 "
