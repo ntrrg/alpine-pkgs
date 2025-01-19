@@ -1,0 +1,56 @@
+# Maintainer: Miguel Angel Rivera Notararigo <ntrrgx@gmail.com>
+pkgname=phinger-cursor-theme
+pkgver=2.1
+pkgrel=0
+pkgdesc="Most likely the most over engineered cursor theme"
+url="https://github.com/phisch/phinger-cursors"
+arch="noarch"
+license="CC-BY-SA-4.0"
+source="$pkgname-$pkgver.tar.bz::https://github.com/phisch/phinger-cursors/releases/download/v$pkgver/phinger-cursors-variants.tar.bz2"
+subpackages="
+	$pkgname-left:_left:noarch
+
+	$pkgname-dark:_dark:noarch
+	$pkgname-dark-left:_dark_left:noarch
+"
+builddir="$srcdir"
+options="!check" # no tests
+
+build() {
+	tar -xf "$pkgname-$pkgver.tar.bz"
+}
+
+package() {
+	_dest="${subpkgdir:-$pkgdir}/usr/share/icons"
+
+	mkdir -p "$_dest"
+	cp -rf "$builddir/phinger-cursors-light" "$_dest"
+}
+
+_left() {
+	pkgdesc="Most likely the most over engineered cursor theme (left-handed variant)"
+	_dest="${subpkgdir:-$pkgdir}/usr/share/icons"
+
+	mkdir -p "$_dest"
+	cp -rf "$builddir/phinger-cursors-light-left" "$_dest/"
+}
+
+_dark() {
+	pkgdesc="Most likely the most over engineered cursor theme (dark variant)"
+	_dest="${subpkgdir:-$pkgdir}/usr/share/icons"
+
+	mkdir -p "$_dest"
+	cp -rf "$builddir/phinger-cursors-dark" "$_dest/"
+}
+
+_dark_left() {
+	pkgdesc="Most likely the most over engineered cursor theme (dark left-handed variant)"
+	_dest="${subpkgdir:-$pkgdir}/usr/share/icons"
+
+	mkdir -p "$_dest"
+	cp -rf "$builddir/phinger-cursors-dark-left" "$_dest"
+}
+
+sha512sums="
+5590c5c94f36aff063ac8684c24e2a2ddc747de2809d20cbe0861f488ba18c06e43673736f317abcb6254466c912e0f030b41d697d3bc2933ccc34df6890b0c5  phinger-cursor-theme-2.1.tar.bz
+"
